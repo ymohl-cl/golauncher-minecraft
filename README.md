@@ -1,1 +1,1 @@
-# goluncher-minecraft
+# golauncher-minecraft
