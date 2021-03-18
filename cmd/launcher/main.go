@@ -1,12 +1,14 @@
 package main
 
 import (
+	"fmt"
+
+	"github.com/sqweek/dialog"
 	gamebuilder "github.com/ymohl-cl/game-builder"
-	"github.com/ymohl-cl/golauncher-minecraft/cmd/launcher/ui"
 )
 
 func main() {
-	var u ui.UI
+	var ui UI
 	var driver gamebuilder.GameBuilder
 	var err error
 	var c Config
@@ -24,15 +26,22 @@ func main() {
 		panic(err)
 	}
 
-	if u, err = ui.New(); err != nil {
+	r := driver.Renderer().Driver()
+	if ui, err = NewUI(c, r); err != nil {
 		panic(err)
 	}
 
 	s := driver.Script()
-	if err = s.AddScene("launcher", u); err != nil {
+	if err = s.AddScene("launcher", ui); err != nil {
 		panic(err)
 	}
 	if err = driver.Run("launcher"); err != nil {
 		panic(err)
 	}
+
+	directory, err := dialog.Directory().Title("Load images").Browse()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("directory find: %s\n", directory)
 }

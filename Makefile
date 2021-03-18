@@ -13,8 +13,7 @@ install:
 
 .PHONY: build
 build:
-	@CGO_ENABLED=1 CC=gcc GOOS=darwin GOARCH=amd64 go build -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY} ${MODULE_NAME}/cmd/${APP}
-	@cp ${CONFIG_FILE} ${BIN_FOLDER}/${CONFIG_FILE}
+	@CGO_ENABLED=1 CC=gcc GOOS=darwin GOARCH=amd64 go build -buildmode=pie -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY} ${MODULE_NAME}/cmd/${APP}
 
 test:
 	@go test -count=1 ./...

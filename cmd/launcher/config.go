@@ -10,16 +10,24 @@ const (
 	configFile = "config.json"
 )
 
+// ConfigUI describe the scene ui
+type ConfigUI struct {
+	Background string `json:"background"`
+	Font       string `json:"font"`
+}
+
 // Window configuration
 type Window struct {
-	Title  string `json:"title"`
 	Width  int32  `json:"width"`
 	Height int32  `json:"height"`
+	Title  string `json:"title"`
 }
 
 // Config data about ui
 type Config struct {
-	Window Window `json:"window"`
+	UI           ConfigUI `json:"ui`
+	Window       Window   `json:"window"`
+	ResourcePath string   `json:"resources_path"`
 }
 
 // NewConfig read the default configuration (config.json) to setup a new ui instance

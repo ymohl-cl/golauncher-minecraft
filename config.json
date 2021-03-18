@@ -4,5 +4,9 @@
 		"width": 1280,
 		"height": 720
 	},
-	"resouces_path": ""
+	"ui": {
+		"background": "background-mycube.png",
+		"font": "minecraft-regular.otf"
+	},
+	"resources_path": "./resources"
 }
