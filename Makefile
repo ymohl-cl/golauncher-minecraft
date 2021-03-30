@@ -5,26 +5,31 @@ IGNORED_FOLDER=.ignore
 MODULE_NAME := $(shell go list -m)
 CONFIG_FILE=config.json
 
-all: install tools lint build
+all: install lint test build
 
 .PHONY: install
 install:
 	@go mod download
 
-.PHONY: build
-build:
+.PHONY: build1
+build1:
 	@CGO_ENABLED=1 CC=gcc GOOS=darwin GOARCH=amd64 go build -buildmode=pie -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY} ${MODULE_NAME}/cmd/${APP}
 
+.PHONY: build2
+build2:
+	@CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go build -buildmode=pie -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY}.exe ${MODULE_NAME}/cmd/${APP}
+
+.PHONY: test
 test:
-	@go test -count=1 ./...
+	@go test -count=1 -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 .PHONY: lint
 lint:
-	golint ./...
+	@golint -set_exit_status ./...
 
 .PHONY: tools
 tools:
-	go get -u golang.org/x/lint/golint
+	@go get -u golang.org/x/lint/golint
 
 .PHONY: clean
 clean:
