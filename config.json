@@ -1,12 +1,50 @@
 {
-	"window": {
-		"title": "mycube",
-		"width": 1280,
-		"height": 720
-	},
 	"ui": {
-		"background": "background-mycube.png",
-		"font": "minecraft-regular.otf"
+		"resources": "./resources",
+		"window": {
+			"title": "mycube",
+			"width": 1280,
+			"height": 720
+		},
+		"elements": {
+			"font": "minecraft-regular.otf",
+			"background_image": "background-mycube.png",
+			"background_music": "Muriel-Bobby-Richards.wav",
+			"click_audio": "Slapping-Three-Faces.wav",
+			"buttons": [
+				{
+					"logo": "discord.png",
+					"url": "https://discord.gg/tuMN4yVwgt"
+				},
+				{
+					"logo": "twitch.png",
+					"url": "https://twitch.tv/mrpioutv"
+				},
+				{
+					"logo": "forge.jpg",
+					"url": "https://mcforge.readthedocs.io/en/1.16.x/"
+				}
+			],
+			"title": {
+				"font": "minecraft-regular.otf",
+				"content": "Bienvenue sur MYCUBE !"
+			}
+		}
 	},
-	"resources_path": "./resources"
+	"installer": {
+		"minecraft_version": "1.16.4",
+		"forge": {
+			"version": "1.16.4",
+			"url": "http://files.minecraftforge.net/maven/net/minecraftforge/forge/"
+		},
+		"server": {
+			"name": "mycube",
+			"ip": "minecraft1049.omgserv.com:10016"
+		},
+		"ftp": {
+			"url": "62.210.46.77:21",
+			"login": "326314_launcher",
+			"password": "readonly"
+		}
+	}
 }

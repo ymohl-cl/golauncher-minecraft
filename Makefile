@@ -5,15 +5,16 @@ IGNORED_FOLDER=.ignore
 MODULE_NAME := $(shell go list -m)
 CONFIG_FILE=config.json
 
-all: install tools lint build
+all: install tools lint test build
 
 .PHONY: install
-install:
+install: tools
 	@go mod download
 
 .PHONY: build
 build:
 	@CGO_ENABLED=1 CC=gcc GOOS=darwin GOARCH=amd64 go build -buildmode=pie -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY} ${MODULE_NAME}/cmd/${APP}
+	@CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc GOOS=windows GOARCH=amd64 go build -buildmode=pie -tags static -ldflags "-s -w" -o ${BIN_FOLDER}/${BINARY}.exe ${MODULE_NAME}/cmd/${APP}
 
 test:
 	@go test -count=1 ./...

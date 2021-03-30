@@ -1,0 +1,37 @@
+name: Go
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+    
+    - name: Install
+      run: make install
+
+    - name: Test
+      run: make test
+
+    - name: Codecov
+      run: bash <(curl -s https://codecov.io/bash)
+
+    - name: Linter
+      run: make lint
+
+    - name: Build
+      run: make build
+
+    - name: release
+      run: cp config.json bin/config.json && cp -r resources bin/resources && zip -qq -r golauncher-minecraft bin

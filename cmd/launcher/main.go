@@ -1,47 +1,43 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/sqweek/dialog"
-	gamebuilder "github.com/ymohl-cl/game-builder"
+	goui "github.com/ymohl-cl/go-ui"
 )
 
 func main() {
 	var ui UI
-	var driver gamebuilder.GameBuilder
+	var driver goui.GoUI
+	var s goui.Scene
 	var err error
 	var c Config
 
 	if c, err = NewConfig(); err != nil {
 		panic(err)
 	}
-	if driver, err = gamebuilder.New(gamebuilder.ConfigUI{
-		Window: gamebuilder.Window{
-			Title:  c.Window.Title,
-			Width:  c.Window.Width,
-			Height: c.Window.Height,
+	if ui, err = NewUI(c); err != nil {
+		panic(err)
+	}
+
+	if driver, err = goui.New(goui.ConfigUI{
+		Window: goui.Window{
+			Title:  c.UI.Window.Title,
+			Width:  c.UI.Window.Width,
+			Height: c.UI.Window.Height,
 		},
 	}); err != nil {
 		panic(err)
 	}
+	defer driver.Close()
 
-	r := driver.Renderer().Driver()
-	if ui, err = NewUI(c, r); err != nil {
+	if s, err = goui.NewScene(); err != nil {
 		panic(err)
 	}
-
-	s := driver.Script()
-	if err = s.AddScene("launcher", ui); err != nil {
-		panic(err)
-	}
-	if err = driver.Run("launcher"); err != nil {
+	defer s.Close()
+	if err = ui.Build(s); err != nil {
 		panic(err)
 	}
 
-	directory, err := dialog.Directory().Title("Load images").Browse()
-	if err != nil {
+	if err = driver.Run(s); err != nil {
 		panic(err)
 	}
-	fmt.Printf("directory find: %s\n", directory)
 }
